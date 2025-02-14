@@ -10,3 +10,9 @@
 * Execute the project using your IDEs functionality for this, potentially after restarting the IDE if it did not work
 * Running `python -m {filename}` (exclude .py) in the integrated terminal with the pipenv environment active
 * Running `pipenv run python -m {filename}` (exclude .py) in a terminal without the pipenv environment active 
+
+## Contributing to the repository
+
+- Create a new branch or work on dev.
+- Never work directly on main
+- Let others know before you merge to main
