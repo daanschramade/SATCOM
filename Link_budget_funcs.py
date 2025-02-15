@@ -48,7 +48,7 @@ def static_loss(theta_pe, theta_div):
     theta_pe: the static pointing error angle \\
     theta_div: the divergence angle
     """
-    T_pe = np.exp((-2 * theta_pe ** 2)/(theta_div))
+    T_pe = np.exp((-2 * theta_pe ** 2)/(theta_div ** 2))
     L_pe = 10 * np.log(T_pe)
     return L_pe
 #---------------------
@@ -59,7 +59,7 @@ def avg_jitter_loss(theta_div):
     """
     theta_div: the divergence angle
     """
-    sigma_pj = 0.2 * theta_div          #TODO: Do we have to implement the bessel function to determine sigma_pj?
+    sigma_pj = 0.2 * theta_div    
     T_pa = (theta_div ** 2)/(theta_div ** 2 + 4 * sigma_pj ** 2)
     L_pa = 10 * np.log(T_pa)
     return L_pa
@@ -104,7 +104,7 @@ def aoa (wave, D, ro):
     sigma_a = np.sqrt(0.18 * (D/ro) ** (5/3) * (wave/D) ** 2)
     return
 
-def beam_spread_loss(D, r0): #TODO: As mentioned in the slides, beam spread and wavefront share an equation?
+def beam_spread_loss(D, r0): 
     """
     D: Diameter of the spot on the detector \\
     r0: the waist radius of the gaussian representation of the beam
@@ -159,7 +159,7 @@ def Total_optics_loss(optics):
     optics: 1D-array containing the transmission, reflection or efficiency factors of each optical element with \\
     which the transmitting laser interacts. Think of mirrors, lenses, optical fibres etc.
     """
-    optics_loss = np.sum(optics)
+    optics_loss = np.prod(optics)
     optics_loss_db = 10 * np.log10(optics_loss)
     return optics_loss_db
 #---------------------
@@ -195,12 +195,12 @@ if __name__ == '__main__':
     r0 = 1
     Drx = 1
 
-    # Optical fibre, L1, M1, BS1, ND, M3, ND, BS1, M2, BS2, M4, L3 
-    optics_array = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1] #FIXME: Still dummy
+    #      Optical fibre, L1, M1, BS1, ND, M3, ND, BS1, M2, BS2, M4, L3 
+    optics_array = [1.0, 0.95, 0.96, 0.5, 1.0, 0.96, 1.0, 0.5, 0.96, 0.5, 0.96, 0.95] #FIXME: Still dummy
     #---------------------
 
     # Losses and gains in link budget #FIXME: empty function parameters
-    laser_power = ...
+    laser_power = 13            #dBm 80 mW
     Gtx = Tx_gain(theta_div)
     optics_loss = Total_optics_loss(optics_array) #Including elements from both Tx and Rx
     #--
