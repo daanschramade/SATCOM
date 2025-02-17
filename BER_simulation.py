@@ -1,19 +1,12 @@
-import matplotlib.pyplot as plt
+
 import numpy as np
-import math
+import matplotlib.pyplot as plt
+import scipy as sc
 
+snr_db = 16.55 
+snr = 10**(snr_db/10)
+ber = 0.5 * sc.special.erfc(np.sqrt(snr)/2)
+print(ber)
 
-snr = np.linspace(0, 10, 30000)
-
-# ber = 0.5 * math.erfc(0.5 * snr)
-
-ber = [0.5 * math.erfc(0.5 * i) for i in snr]
-
-a = plt.figure()
-plt.plot(snr, ber)
-# plt.plot(snr,10e-6)
-plt.plot(snr, [10e-3 for i in len(snr)])
-plt.yscale('log')
-
-plt.show()
-
+# BER 0.001 -> SNR 12.81 dB
+# BEr 0.000001 -> SNR 16.55 dB
