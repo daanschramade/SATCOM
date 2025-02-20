@@ -70,12 +70,12 @@ class OpticalLinkBudget:
     @property
     def jitter_loss(self):
         """Jitter Loss"""
-        return -np.abs(10 * np.log10(self.theta_div**2 / (self.theta_div**2 + 4 * self.sigma_pj**2)))
+        return -np.abs(10 * np.log10(self.theta_div**2 / (self.theta_div**2 + 4 * self.sigma_pj**2) * self.p_out ** ((4 * self.sigma_pj ** 2)/(self.theta_div ** 2))))
 
     @property
     def beam_spread_loss(self):
         """Beam Spread Loss"""
-        return -np.abs(10 * np.log10((1 + (self.D_spot / self.r0) ** (5/3)) ** (3/5)))
+        return -np.abs(10 * np.log10((1 + (self.D_spot / self.r0) ** (5/3)) ** (-5/6)))
 
     @property
     def wavefront_loss(self):
